@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flecos — Hair & Beauty</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --beige-light:#faf6f0;--beige-mid:#ede0ce;
+  --brown-dark:#4a3728;--brown-mid:#7a5c45;--brown-light:#b08b6e;
+  --brown-accent:#c9a882;--text-dark:#2e1f14;--text-mid:#6b4c38;
+  --text-light:#a07b60;--white:#fff;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--beige-light);color:var(--text-dark);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(250,246,240,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(160,123,96,0.15);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;letter-spacing:0.15em;color:var(--brown-dark);text-decoration:none;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:0.78rem;letter-spacing:0.12em;color:var(--text-mid);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.nav-links a:hover{color:var(--brown-dark);}
+.nav-cta{background:var(--brown-dark);color:var(--white)!important;padding:0.55rem 1.4rem;border-radius:2px;}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--brown-dark);}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--beige-light);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--brown-dark);text-decoration:none;letter-spacing:0.1em;}
+.mobile-menu .m-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.5rem;cursor:pointer;color:var(--brown-mid);}
+.mobile-menu .m-cta{background:var(--brown-dark);color:var(--white)!important;padding:1rem 2.5rem;border-radius:2px;font-size:1rem!important;letter-spacing:0.15em;}
+
+/* HERO */
+.hero{height:100vh;min-height:600px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+.hero-bg-img{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1560869713-7d0a29430803?w=1600&q=60');background-size:cover;background-position:center 30%;filter:brightness(0.22) saturate(0.5);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(74,55,40,0.75) 0%,rgba(42,28,18,0.85) 50%,rgba(74,55,40,0.6) 100%);}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,130,0.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse-glow 6s ease-in-out infinite;}
+@keyframes pulse-glow{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.6;}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1;}}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 1.5rem;display:flex;flex-direction:column;align-items:center;}
+.hero-eyebrow{font-size:0.7rem;letter-spacing:0.45em;color:var(--brown-accent);text-transform:uppercase;opacity:0;animation:fadeUp 1s ease forwards 0.2s;margin-bottom:1.8rem;}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(5rem,14vw,11rem);font-weight:300;letter-spacing:0.18em;color:var(--white);line-height:0.9;opacity:0;animation:fadeUp 1.2s ease forwards 0.5s;}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2vw,1.4rem);font-weight:300;letter-spacing:0.35em;color:var(--brown-accent);text-transform:uppercase;opacity:0;animation:fadeUp 1s ease forwards 0.9s;margin-top:1.5rem;}
+.hero-divider{width:60px;height:1px;background:linear-gradient(to right,transparent,var(--brown-accent),transparent);opacity:0;animation:fadeUp 1s ease forwards 1.1s;margin:2rem 0;}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(0.95rem,1.5vw,1.15rem);font-style:italic;color:rgba(255,255,255,0.6);opacity:0;animation:fadeUp 1s ease forwards 1.3s;max-width:420px;line-height:1.6;}
+.hero-cta-wrap{display:flex;gap:1rem;margin-top:2.5rem;opacity:0;animation:fadeUp 1s ease forwards 1.5s;flex-wrap:wrap;justify-content:center;}
+.hero-btn{padding:0.9rem 2rem;font-family:'Jost',sans-serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all 0.3s;}
+.hero-btn-primary{background:var(--brown-accent);color:var(--brown-dark);}
+.hero-btn-primary:hover{background:var(--white);}
+.hero-btn-secondary{border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.8);}
+.hero-btn-secondary:hover{border-color:var(--brown-accent);color:var(--brown-accent);}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fadeIn 1s ease forwards 2s;}
+.hero-scroll span{font-size:0.62rem;letter-spacing:0.3em;color:rgba(255,255,255,0.35);text-transform:uppercase;}
+.hero-scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(201,168,130,0.6),transparent);animation:scrollDown 2s ease-in-out infinite;}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:0.7;}}
+
+/* STATS STRIP — desktop */
+.about-strip{background:var(--brown-dark);color:var(--white);padding:3rem 4rem;display:flex;align-items:center;justify-content:center;}
+.about-stat{text-align:center;flex:1;max-width:220px;}
+.about-stat .num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--brown-accent);line-height:1;}
+.about-stat .lbl{font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:0.4rem;}
+.about-divider{width:1px;height:50px;background:rgba(255,255,255,0.12);flex-shrink:0;}
+
+/* ABOUT */
+.about{padding:7rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;max-width:1300px;margin:0 auto;}
+.about-img-wrap{position:relative;}
+.about-img-main{width:100%;height:500px;object-fit:cover;border-radius:2px;}
+.about-img-accent{position:absolute;bottom:-2.5rem;right:-2.5rem;width:52%;height:290px;object-fit:cover;border:6px solid var(--beige-light);border-radius:2px;}
+.about-text .eyebrow{font-size:0.7rem;letter-spacing:0.3em;color:var(--brown-light);text-transform:uppercase;margin-bottom:1rem;}
+.about-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;line-height:1.25;color:var(--brown-dark);margin-bottom:1.5rem;}
+.about-text p{font-size:0.93rem;line-height:1.9;color:var(--text-mid);margin-bottom:1rem;}
+.about-text .btn{display:inline-block;margin-top:1.5rem;padding:0.85rem 2rem;background:var(--brown-dark);color:var(--white);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background 0.3s;}
+.about-text .btn:hover{background:var(--brown-mid);}
+
+/* SERVICES */
+.services{padding:6rem 4rem;background:var(--beige-mid);}
+.section-header{text-align:center;margin-bottom:4rem;}
+.section-header .eyebrow{font-size:0.7rem;letter-spacing:0.3em;color:var(--brown-light);text-transform:uppercase;margin-bottom:0.8rem;}
+.section-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:300;color:var(--brown-dark);}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1300px;margin:0 auto;}
+.service-card{background:var(--beige-light);border-radius:2px;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;}
+.service-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(74,55,40,0.1);}
+.service-img{width:100%;height:230px;object-fit:cover;display:block;}
+.service-body{padding:1.4rem;}
+.service-body h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--brown-dark);margin-bottom:0.4rem;}
+.service-body p{font-size:0.8rem;color:var(--text-mid);line-height:1.7;margin-bottom:1rem;}
+.service-btn{display:inline-block;font-size:0.7rem;letter-spacing:0.15em;color:var(--white);background:var(--brown-dark);text-decoration:none;text-transform:uppercase;padding:0.6rem 1.2rem;border-radius:2px;transition:background 0.3s;}
+.service-btn:hover{background:var(--brown-mid);}
+
+/* GALLERY */
+.gallery{padding:6rem 4rem;max-width:1300px;margin:0 auto;}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.gallery-item{overflow:hidden;border-radius:2px;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s;}
+.gallery-item:hover img{transform:scale(1.06);}
+.gallery-item:nth-child(1){grid-column:span 2;grid-row:span 2;height:400px;}
+.gallery-item:not(:nth-child(1)){height:190px;}
+
+/* REVIEWS */
+.reviews{padding:6rem 4rem;background:var(--brown-dark);}
+.reviews .section-header h2{color:var(--white);}
+.reviews .section-header .eyebrow{color:var(--brown-accent);}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1300px;margin:0 auto;}
+.review-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:2px;padding:2rem;}
+.review-stars{color:var(--brown-accent);font-size:0.85rem;margin-bottom:1rem;}
+.review-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:rgba(255,255,255,0.82);line-height:1.75;margin-bottom:1.5rem;}
+.review-author{font-size:0.72rem;letter-spacing:0.15em;color:rgba(255,255,255,0.38);text-transform:uppercase;}
+.reviews-badge{text-align:center;margin-top:3.5rem;}
+.reviews-badge .big{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--white);}
+.reviews-badge .sub{font-size:0.75rem;letter-spacing:0.2em;color:var(--brown-accent);text-transform:uppercase;}
+
+/* CONTACT */
+.contact{padding:6rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1300px;margin:0 auto;align-items:start;}
+.contact-info .eyebrow{font-size:0.7rem;letter-spacing:0.3em;color:var(--brown-light);text-transform:uppercase;margin-bottom:1rem;}
+.contact-info h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:300;color:var(--brown-dark);margin-bottom:2rem;}
+.contact-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;}
+.contact-icon{width:38px;height:38px;border-radius:50%;background:var(--beige-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.contact-icon svg{width:15px;height:15px;fill:var(--brown-mid);}
+.contact-item-text p{font-size:0.7rem;letter-spacing:0.12em;color:var(--text-light);text-transform:uppercase;margin-bottom:0.2rem;}
+.contact-item-text a,.contact-item-text span{font-size:0.9rem;color:var(--text-dark);text-decoration:none;}
+.contact-item-text a:hover{color:var(--brown-mid);}
+.cta-wa{display:inline-flex;align-items:center;gap:0.7rem;margin-top:2rem;padding:1rem 2rem;background:#25D366;color:var(--white);border-radius:2px;text-decoration:none;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;transition:background 0.3s;}
+.cta-wa:hover{background:#1ebe5d;}
+.map-wrap{border-radius:2px;overflow:hidden;height:420px;box-shadow:0 8px 30px rgba(74,55,40,0.1);}
+.map-wrap iframe{width:100%;height:100%;border:0;display:block;}
+
+/* FOOTER */
+footer{background:var(--brown-dark);border-top:1px solid rgba(255,255,255,0.07);padding:2.5rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+footer .f-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);letter-spacing:0.15em;}
+footer .f-copy{font-size:0.68rem;color:rgba(255,255,255,0.3);}
+footer .f-links{display:flex;gap:1.5rem;}
+footer .f-links a{font-size:0.68rem;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-decoration:none;}
+footer .f-links a:hover{color:var(--brown-accent);}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+
+  .hero{min-height:100svh;}
+  .hero-name{font-size:clamp(4rem,20vw,7rem);letter-spacing:0.12em;}
+  .hero-sub{letter-spacing:0.2em;font-size:0.85rem;}
+  .hero-tagline{font-size:0.9rem;max-width:280px;}
+  .hero-cta-wrap{flex-direction:column;align-items:center;gap:0.75rem;margin-top:2rem;}
+  .hero-btn{width:240px;text-align:center;padding:1rem;}
+
+  /* STATS — elegante en móvil */
+  .about-strip{
+    padding:0;
+    flex-direction:column;
+    gap:0;
+  }
+  .about-stat{
+    width:100%;
+    max-width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.4rem 2rem;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    text-align:left;
+  }
+  .about-stat:last-child{border-bottom:none;}
+  .about-stat .num{
+    font-size:2.4rem;
+    line-height:1;
+    flex-shrink:0;
+    min-width:80px;
+  }
+  .about-stat .lbl{
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-align:right;
+    line-height:1.4;
+    max-width:160px;
+  }
+  .about-divider{display:none;}
+
+  .about{grid-template-columns:1fr;gap:0;padding:4rem 1.5rem;}
+  .about-img-wrap{margin-bottom:4rem;}
+  .about-img-main{height:320px;}
+  .about-img-accent{width:60%;height:200px;right:-1rem;bottom:-1.5rem;}
+
+  .services{padding:4rem 1.5rem;}
+  .services-grid{grid-template-columns:1fr;gap:1.2rem;}
+  .service-img{height:200px;}
+
+  .gallery{padding:4rem 1.5rem;}
+  .gallery-grid{grid-template-columns:1fr 1fr;gap:0.6rem;}
+  .gallery-item:nth-child(1){grid-column:span 2;height:220px;}
+  .gallery-item:not(:nth-child(1)){height:140px;}
+
+  .reviews{padding:4rem 1.5rem;}
+  .reviews-grid{grid-template-columns:1fr;gap:1rem;}
+  .reviews-badge .big{font-size:3rem;}
+
+  .contact{grid-template-columns:1fr;gap:2.5rem;padding:4rem 1.5rem;}
+  .map-wrap{height:300px;}
+
+  footer{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:2.5rem 1.5rem 2rem;
+    gap:0;
+  }
+  footer .f-logo{
+    font-size:1.4rem;
+    letter-spacing:0.18em;
+    margin-bottom:1.2rem;
+  }
+  footer .f-copy{
+    font-size:0.65rem;
+    color:rgba(255,255,255,0.28);
+    line-height:1.7;
+    max-width:260px;
+    margin-bottom:1.6rem;
+  }
+  footer .f-links{
+    justify-content:center;
+    gap:0;
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    border-top:1px solid rgba(255,255,255,0.07);
+    padding-top:1.4rem;
+  }
+  footer .f-links a{
+    flex:1;
+    text-align:center;
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    padding:0.5rem 0.4rem;
+    color:rgba(255,255,255,0.5);
+    position:relative;
+  }
+  footer .f-links a:not(:last-child)::after{
+    content:'';
+    position:absolute;
+    right:0;top:25%;
+    height:50%;
+    width:1px;
+    background:rgba(255,255,255,0.1);
+  }
+  footer .f-links a:hover{color:var(--brown-accent);}
+}
+@media(max-width:380px){
+  .about-stat{padding:1.2rem 1.5rem;}
+  .about-stat .num{font-size:2rem;min-width:65px;}
+  .about-stat .lbl{font-size:0.65rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-menu" id="mobileMenu">
+  <span class="m-close" onclick="closeMobile()">✕</span>
+  <a href="#about" onclick="closeMobile()">Nosotras</a>
+  <a href="#services" onclick="closeMobile()">Servicios</a>
+  <a href="#gallery" onclick="closeMobile()">Galería</a>
+  <a href="#reviews" onclick="closeMobile()">Reseñas</a>
+  <a href="#contact" onclick="closeMobile()">Contacto</a>
+  <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20cita%20en%20Flecos" target="_blank" class="m-cta" onclick="closeMobile()">Reservar cita</a>
+</div>
+
+<nav>
+  <a href="#" class="nav-logo">FLECOS</a>
+  <ul class="nav-links">
+    <li><a href="#about">Nosotras</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#gallery">Galería</a></li>
+    <li><a href="#reviews">Reseñas</a></li>
+    <li><a href="#contact">Contacto</a></li>
+    <li><a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20cita%20en%20Flecos" target="_blank" class="nav-cta">Reservar cita</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="openMobile()"><span></span><span></span><span></span></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Peluquería &amp; Maquillaje · Oviedo</p>
+    <h1 class="hero-name">FLECOS</h1>
+    <p class="hero-sub">Hair &amp; Beauty</p>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">Especialistas en coloración, balayage y peluquería de novias en Asturias</p>
+    <div class="hero-cta-wrap">
+      <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20cita%20en%20Flecos" target="_blank" class="hero-btn hero-btn-primary">Reservar cita</a>
+      <a href="#services" class="hero-btn hero-btn-secondary">Nuestros servicios</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Descubrir</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS — solo 2 ahora -->
+<div class="about-strip">
+  <div class="about-stat">
+    <div class="num">30+</div>
+    <div class="lbl">Años de experiencia</div>
+  </div>
+  <div class="about-divider"></div>
+  <div class="about-stat">
+    <div class="num">4,8</div>
+    <div class="lbl">Valoración Google</div>
+  </div>
+  <div class="about-divider"></div>
+  <div class="about-stat">
+    <div class="num">100%</div>
+    <div class="lbl">Personalización</div>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div class="about-img-wrap">
+    <img class="about-img-main" src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80" alt="Salón Flecos Oviedo"/>
+    <img class="about-img-accent" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80" alt="Detalle peluquería"/>
+  </div>
+  <div class="about-text">
+    <p class="eyebrow">Nuestra historia</p>
+    <h2>Peluquería y belleza en el centro de Oviedo</h2>
+    <p>En Flecos, estamos especializados en coloración, balayage, corte y peluquería y maquillaje de novias en Asturias. Trabajamos con técnicas de color personalizadas y creamos peinados y maquillajes que respetan la esencia de cada mujer.</p>
+    <p>En Flecos, no solo peinamos: escuchamos, asesoramos y creamos estilos a medida. Nuestra pasión por la belleza se refleja en cada detalle, porque creemos que el cabello no solo transforma tu imagen, sino también cómo te sientes contigo mismo.</p>
+    <p>Si buscas una peluquería profesional en Oviedo o un equipo especializado en novias y eventos, estaremos encantadas de acompañarte.</p>
+    <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20cita%20en%20Flecos" target="_blank" class="btn">Reservar cita →</a>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="section-header">
+    <p class="eyebrow">Lo que ofrecemos</p>
+    <h2>Nuestros servicios</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" alt="Mechas balayage"/>
+      <div class="service-body">
+        <h3>Mechas balayage / babylights</h3>
+        <p>Técnica de iluminación natural y degradado que realza el color de forma personalizada para cada cabello.</p>
+        <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20reservar%20cita%20para%20mechas%20balayage" target="_blank" class="service-btn">Reservar cita</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=600&q=80" alt="Corte personalizado"/>
+      <div class="service-body">
+        <h3>Corte personalizado</h3>
+        <p>Escuchamos tus necesidades y adaptamos el corte a tu estilo de vida, forma de cara y tipo de cabello.</p>
+        <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20reservar%20cita%20para%20un%20corte" target="_blank" class="service-btn">Reservar cita</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80" alt="Coloración profesional"/>
+      <div class="service-body">
+        <h3>Coloración profesional</h3>
+        <p>Utilizamos productos de alta gama para conseguir colores vibrantes, duraderos y que cuiden la salud del cabello.</p>
+        <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20reservar%20cita%20para%20coloraci%C3%B3n" target="_blank" class="service-btn">Reservar cita</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80" alt="Novias y eventos"/>
+      <div class="service-body">
+        <h3>Peinado para novias y eventos</h3>
+        <p>Creamos peinados únicos para tu día especial. Experiencia y mimo para que te sientas perfecta.</p>
+        <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20reservar%20cita%20para%20peinado%20de%20novia" target="_blank" class="service-btn">Reservar cita</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt="Tratamientos"/>
+      <div class="service-body">
+        <h3>Tratamientos especializados</h3>
+        <p>Tratamientos de nutrición, hidratación y reparación adaptados al estado y necesidades de tu cabello.</p>
+        <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20reservar%20cita%20para%20un%20tratamiento%20capilar" target="_blank" class="service-btn">Reservar cita</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Maquillaje"/>
+      <div class="service-body">
+        <h3>Maquillaje profesional</h3>
+        <p>Maquillaje para novias, eventos y ocasiones especiales. Resaltamos tu belleza natural con técnica y arte.</p>
+        <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20reservar%20cita%20para%20maquillaje" target="_blank" class="service-btn">Reservar cita</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="section-header">
+    <p class="eyebrow">Nuestro trabajo</p>
+    <h2>Galería</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=800&q=80" alt="Trabajo 1"/></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=600&q=80" alt="Trabajo 2"/></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80" alt="Trabajo 3"/></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80" alt="Trabajo 4"/></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt="Trabajo 5"/></div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="section-header">
+    <p class="eyebrow">Lo que dicen de nosotras</p>
+    <h2>Reseñas de clientes</h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Fui desde Madrid a una boda. La dueña me atendió increíble. Totalmente recomendable, un trato excelente y el resultado fue perfecto."</p>
+      <p class="review-author">Paloma · Google · Hace 2 meses</p>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Me peinaron para mi boda y estoy muy contenta de haberlas escogido, ya no solo por la profesionalidad sino por el trato. Te transmiten tranquilidad en tu día."</p>
+      <p class="review-author">Loreto Fernandez · Google · Hace 6 meses</p>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Un salón con mucho encanto. Se nota la experiencia en cada servicio. Sin duda, mi peluquería de confianza en Oviedo."</p>
+      <p class="review-author">Cliente fiel · Google</p>
+    </div>
+  </div>
+  <div class="reviews-badge">
+    <div class="big">4,8 / 5</div>
+    <div class="sub">32 reseñas verificadas en Google</div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-info">
+    <p class="eyebrow">Encuéntranos</p>
+    <h2>Contacto y ubicación</h2>
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+      <div class="contact-item-text"><p>Dirección</p><span>C. Melquiades Álvarez, 3, Entresuelo B<br>33002 Oviedo, Asturias</span></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+      <div class="contact-item-text"><p>Teléfono</p><a href="tel:+34985210107">985 21 01 07</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.856L0 24l6.302-1.513A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.845 0-3.57-.5-5.058-1.37l-.362-.215-3.742.898.952-3.653-.236-.375A9.945 9.945 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></div>
+      <div class="contact-item-text"><p>WhatsApp</p><a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20cita%20en%20Flecos" target="_blank">659 009 400</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+      <div class="contact-item-text"><p>Email</p><a href="/cdn-cgi/l/email-protection#f6909a9395998599809f939299b69e99829b979f9ad895999b"><span class="__cf_email__" data-cfemail="096f656c6a667a667f606c6d664961667d64686065276a6664">[email&#160;protected]</span></a></div>
+    </div>
+    <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20cita%20en%20Flecos" target="_blank" class="cta-wa">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.856L0 24l6.302-1.513A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.845 0-3.57-.5-5.058-1.37l-.362-.215-3.742.898.952-3.653-.236-.375A9.945 9.945 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Enviar mensaje por WhatsApp
+    </a>
+  </div>
+  <div class="map-wrap">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.2!2d-5.8447!3d43.3619!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd368e8b8aa11b05%3A0x71e0e13f76c4e5b8!2sC.%20Melqui%C3%A0des%20%C3%81lvarez%2C%203%2C%2033002%20Oviedo!5e0!3m2!1ses!2ses!4v1711900000000!5m2!1ses!2ses" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación Flecos"></iframe>
+  </div>
+</section>
+
+<footer>
+  <span class="f-logo">FLECOS · Hair &amp; Beauty</span>
+  <span class="f-copy">© 2025 Flecos Peluquería Oviedo<br>C. Melquiades Álvarez, 3 Entresuelo B · Oviedo</span>
+  <div class="f-links">
+    <a href="tel:+34985210107">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      Llamar
+    </a>
+    <a href="/cdn-cgi/l/email-protection#284e444d4b475b475e414d4c476840475c45494144064b4745">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Email
+    </a>
+    <a href="https://wa.me/34659009400?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20cita%20en%20Flecos" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.856L0 24l6.302-1.513A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.845 0-3.57-.5-5.058-1.37l-.362-.215-3.742.898.952-3.653-.236-.375A9.945 9.945 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-d
